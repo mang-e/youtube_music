@@ -9,11 +9,10 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      // ✅ @/ 를 client/src/ 로 연결
-      '@': path.resolve(__dirname, './client/src')
+      '@': path.resolve(__dirname, './client/src'),
+      '@shared': path.resolve(__dirname, './shared') // ✅ 이 줄 추가!
     }
   },
-  // ✅ 없는 환경변수 빈 값으로 처리
   define: {
     'import.meta.env.VITE_ANALYTICS_ENDPOINT': JSON.stringify(''),
     'import.meta.env.VITE_ANALYTICS_WEBSITE_ID': JSON.stringify('')
