@@ -16,7 +16,8 @@ RUN apt-get update \
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+# ✅ --legacy-peer-deps 추가!
+RUN npm install --legacy-peer-deps
 
 COPY . .
 RUN npm run build
