@@ -7,23 +7,23 @@ RUN apt-get update \
        python3-pip \
        ca-certificates \
        curl \
+       unzip \
     && python3 -m pip install --no-cache-dir --break-system-packages yt-dlp \
-    # ✅ Deno 설치 (PO Token 인증 자동 해결)
+    # Deno 설치
     && curl -fsSL https://deno.land/install.sh | sh \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-COPY . .
+COPY package*.json ./
+RUN npm install
 
-RUN npm install -g corepack@latest \
-    && corepack pnpm install \
-    && corepack pnpm run build
+COPY . .
+RUN npm run build
 
 ENV NODE_ENV=production
-# ✅ Deno 환경변수
 ENV DENO_INSTALL="/root/.deno"
 ENV PATH="$DENO_INSTALL/bin:$PATH"
 
 EXPOSE 3000
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/_core/index.js"]
